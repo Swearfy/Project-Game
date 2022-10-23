@@ -3,8 +3,6 @@ export class InputHandle {
   constructor(game) {
     this.game = game;
     this.keys = [];
-    this.clickX = 0;
-    this.clickY = 0;
     window.addEventListener("keydown", (e) => {
       if (
         (e.key === "w" || e.key === "a" || e.key === "s" || e.key === "d") &&
@@ -35,9 +33,10 @@ export class InputHandle {
     }
     window.addEventListener("click", (e) => {
       getMousePos(canvas, e);
-      this.clickX = getMousePos(canvas, e).x;
-      this.clickY = getMousePos(canvas, e).y;
-      this.game.player.shoot(this.clickX, this.clickY);
+      this.game.player.shoot(
+        getMousePos(canvas, e).x,
+        getMousePos(canvas, e).y
+      );
     });
   }
 }

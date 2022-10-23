@@ -43,8 +43,8 @@ export class Player {
       projectile.draw(context);
     });
   }
-  shoot(clickX, clickY) {
-    const angle = Math.atan2(clickY - this.y, clickX - this.x);
+  shoot(x, y) {
+    const angle = Math.atan2(y - this.y, x - this.x);
     const velocity = {
       x: Math.cos(angle) * 4,
       y: Math.sin(angle) * 4,
