@@ -35,6 +35,7 @@ export class Player {
     });
   }
   draw(context) {
+    context.beginPath();
     context.fillStyle = "black";
     context.arc(this.x, this.y, 50, 0, Math.PI * 2, false);
     context.fill();
