@@ -3,10 +3,9 @@ import { Projectile } from "./projectile.js";
 export class Player {
   constructor(game) {
     this.game = game;
-    this.width = 50;
-    this.height = 50;
-    this.x = this.game.width / 2 - this.width / 2;
-    this.y = this.game.height / 2 - this.height / 2;
+    this.radius = 50;
+    this.x = this.game.width / 2;
+    this.y = this.game.height / 2;
     this.speedX = 0;
     this.speedY = 0;
     this.maxSpeed = 2;
@@ -23,13 +22,13 @@ export class Player {
     else if (input.includes("w")) this.speedY = -this.maxSpeed;
     else this.speedY = 0;
 
-    if (this.x < 0) this.x = 0;
-    if (this.x > this.game.width - this.width)
-      this.x = this.game.width - this.width;
+    if (this.x - this.radius < 0) this.x += this.radius - this.x;
+    if (this.x > this.game.width - this.radius)
+      this.x = this.game.width - this.radius;
 
-    if (this.y < 0) this.y = 0;
-    if (this.y > this.game.height - this.height)
-      this.y = this.game.height - this.height;
+    if (this.y - this.radius < 0) this.y += this.radius - this.y;
+    if (this.y > this.game.height - this.radius)
+      this.y = this.game.height - this.radius;
 
     this.projectiles.forEach((projectile) => {
       projectile.update();
