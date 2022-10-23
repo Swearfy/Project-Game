@@ -1,3 +1,5 @@
+import { Projectile } from "./projectile.js";
+
 export class Player {
   constructor(game) {
     this.game = game;
@@ -8,6 +10,7 @@ export class Player {
     this.speedX = 0;
     this.speedY = 0;
     this.maxSpeed = 2;
+    this.projectiles = [];
   }
   update(input) {
     this.x += this.speedX;
@@ -27,8 +30,25 @@ export class Player {
     if (this.y < 0) this.y = 0;
     if (this.y > this.game.height - this.height)
       this.y = this.game.height - this.height;
+
+    this.projectiles.forEach((projectile) => {
+      projectile.update();
+    });
   }
   draw(context) {
-    context.fillRect(this.x, this.y, this.width, this.height);
+    context.fillStyle = "black";
+    context.arc(this.x, this.y, 50, 0, Math.PI * 2, false);
+    context.fill();
+    this.projectiles.forEach((projectile) => {
+      projectile.draw(context);
+    });
+  }
+  shoot(clickX, clickY) {
+    const angle = Math.atan2(clickY - this.y, clickX - this.x);
+    const velocity = {
+      x: Math.cos(angle) * 4,
+      y: Math.sin(angle) * 4,
+    };
+    this.projectiles.push(new Projectile(this.game, this.x, this.y, velocity));
   }
 }

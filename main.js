@@ -13,7 +13,7 @@ window.addEventListener("load", function () {
       this.width = width;
       this.height = height;
       this.player = new Player(this);
-      this.input = new InputHandle();
+      this.input = new InputHandle(this);
     }
     update() {
       this.player.update(this.input.keys);
@@ -30,5 +30,6 @@ window.addEventListener("load", function () {
     game.draw(ctx);
     requestAnimationFrame(animate);
   }
+
   animate();
 });
