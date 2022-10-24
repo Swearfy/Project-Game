@@ -39,8 +39,20 @@ export class Player {
     context.fillStyle = "black";
     context.arc(this.x, this.y, 50, 0, Math.PI * 2, false);
     context.fill();
-    this.projectiles.forEach((projectile) => {
+    this.projectiles.forEach((projectile, index) => {
       projectile.draw(context);
+
+      if (
+        projectile.x + projectile.radius < 0 ||
+        projectile.x - projectile.radius > this.game.width ||
+        projectile.y + projectile.radius < 0 ||
+        projectile.y - projectile.radius > this.game.height
+      ) {
+        setTimeout(() => {
+          this.projectiles.splice(index, 1);
+        }, 0);
+      }
+      console.log(this.projectiles);
     });
   }
   shoot(x, y) {

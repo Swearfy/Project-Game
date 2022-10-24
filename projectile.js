@@ -6,8 +6,8 @@ export class Projectile {
     this.width = 5;
     this.height = 5;
     this.speed = 3;
-    // this.radius = 10;
-    // this.color = "red";
+    this.radius = 10;
+    this.color = "red";
     this.velocity = velocity;
   }
   update() {
