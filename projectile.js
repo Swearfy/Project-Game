@@ -3,16 +3,17 @@ export class Projectile {
     this.game = game;
     this.x = x;
     this.y = y;
-    this.width = 5;
-    this.height = 5;
-    this.speed = 3;
+    this.speedX = 0;
+    this.speedY = 0;
+    this.maxSpeed = 1;
     this.radius = 10;
-    this.color = "red";
     this.velocity = velocity;
   }
   update() {
-    this.x = this.x + this.velocity.x;
-    this.y = this.y + this.velocity.y;
+    this.x += this.speedX;
+    this.y += this.speedY;
+    this.speedX = this.velocity.x * this.maxSpeed;
+    this.speedY = this.velocity.y * this.maxSpeed;
   }
   draw(context) {
     context.beginPath();

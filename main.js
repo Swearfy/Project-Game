@@ -31,5 +31,6 @@ window.addEventListener("load", function () {
     requestAnimationFrame(animate);
   }
 
+  game.player.spawnEnemies();
   animate();
 });
