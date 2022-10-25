@@ -12,6 +12,7 @@ export class Projectile {
   update() {
     this.x += this.speedX;
     this.y += this.speedY;
+    //projectile speed
     this.speedX = this.velocity.x * this.maxSpeed;
     this.speedY = this.velocity.y * this.maxSpeed;
   }
