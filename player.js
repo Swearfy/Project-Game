@@ -57,9 +57,7 @@ export class Player {
         projectile.y + projectile.radius < 0 ||
         projectile.y - projectile.radius > this.game.height
       ) {
-        setTimeout(() => {
-          this.projectiles.splice(index, 1);
-        }, 0);
+        this.projectiles.splice(index, 1);
       }
     });
   }
