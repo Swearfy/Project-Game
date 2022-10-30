@@ -69,6 +69,6 @@ export class Player {
       x: Math.cos(angle) * 4,
       y: Math.sin(angle) * 4,
     };
-    this.projectiles.push(new Projectile(this.game, this.x, this.y));
+    this.projectiles.push(new Projectile(this.game, this.x, this.y, velocity));
   }
 }
