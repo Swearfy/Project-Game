@@ -1,3 +1,4 @@
+import { LowLevelEnemy } from "./enemy.js";
 import { InputHandle } from "./imput.js";
 import { Player } from "./player.js";
 
@@ -14,23 +15,39 @@ window.addEventListener("load", function () {
       this.height = height;
       this.player = new Player(this);
       this.input = new InputHandle(this);
+      this.enemies = [];
     }
     update() {
       this.player.update(this.input.keys);
+      //foreach to update enemies
+      this.enemies.forEach((enemy) => {
+        enemy.update();
+      });
     }
     draw(context) {
       this.player.draw(context);
+      //
+      this.enemies.forEach((enemy) => {
+        enemy.draw(context);
+      });
+    }
+    addEnemy() {
+      this.enemies.push(new LowLevelEnemy(this));
     }
   }
   const game = new Game(canvas.width, canvas.height);
 
   function animate() {
+    game.enemies.forEach((enemy) => {
+      enemy.update();
+    });
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     game.update();
     game.draw(ctx);
     requestAnimationFrame(animate);
   }
-
-  game.player.spawnEnemies();
+  setInterval(() => {
+    game.addEnemy();
+  }, 1000);
   animate();
 });
