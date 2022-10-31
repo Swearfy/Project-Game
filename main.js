@@ -1,6 +1,7 @@
 import { LowLevelEnemy } from "./enemy.js";
 import { InputHandle } from "./imput.js";
 import { Player } from "./player.js";
+import { Projectile } from "./projectile.js";
 
 window.addEventListener("load", function () {
   const canvas = document.getElementById("canvas1");
@@ -16,9 +17,16 @@ window.addEventListener("load", function () {
       this.player = new Player(this);
       this.input = new InputHandle(this);
       this.enemies = [];
+      this.projectiles = [];
     }
     update() {
       this.player.update(this.input.keys);
+
+      //foreach to update projectiles
+      this.projectiles.forEach((projectile) => {
+        projectile.update();
+      });
+
       //foreach to update enemies
       this.enemies.forEach((enemy) => {
         enemy.update();
@@ -26,21 +34,40 @@ window.addEventListener("load", function () {
     }
     draw(context) {
       this.player.draw(context);
-      //
+      //draw projectiles
+      this.projectiles.forEach((projectile, index) => {
+        projectile.draw(context);
+        //remove projectiles if outside the canvas
+        if (
+          projectile.x < 0 ||
+          projectile.x > this.width ||
+          projectile.y < 0 ||
+          projectile.y > this.height
+        ) {
+          setTimeout(() => {
+            this.projectiles.splice(index, 1);
+          }, 0);
+        }
+      });
+      //draw enemy
       this.enemies.forEach((enemy) => {
         enemy.draw(context);
       });
     }
     addEnemy() {
+      //add enemies
       this.enemies.push(new LowLevelEnemy(this));
+    }
+    shoot(mouseX, mouseY) {
+      //shoot
+      this.projectiles.push(
+        new Projectile(this, this.player.x, this.player.y, mouseX, mouseY)
+      );
     }
   }
   const game = new Game(canvas.width, canvas.height);
 
   function animate() {
-    game.enemies.forEach((enemy) => {
-      enemy.update();
-    });
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     game.update();
     game.draw(ctx);
