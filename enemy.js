@@ -19,6 +19,7 @@ export class Enemy {
     this.speedX = 0;
     this.speedY = 0;
     this.maxSpeed = 1;
+    this.delete = false;
   }
   update() {
     //calc velocity to player
@@ -48,6 +49,7 @@ export class Enemy {
 export class LowLevelEnemy extends Enemy {
   constructor(game) {
     super(game);
-    this.radius = 0;
+    this.radius = 10;
+    this.lives = 2;
   }
 }

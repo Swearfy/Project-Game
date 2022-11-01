@@ -1,15 +1,16 @@
 import { LowLevelEnemy } from "./enemy.js";
 import { InputHandle } from "./imput.js";
 import { Player } from "./player.js";
-import { Projectile } from "./projectile.js";
 
 window.addEventListener("load", function () {
   const canvas = document.getElementById("canvas1");
   const ctx = canvas.getContext("2d");
+  const scoreEL = document.getElementById("scoreEL");
 
   canvas.width = 1000;
   canvas.height = 1000;
-
+  let animationID;
+  let score = 0;
   class Game {
     constructor(width, height) {
       this.width = width;
@@ -17,39 +18,27 @@ window.addEventListener("load", function () {
       this.player = new Player(this);
       this.input = new InputHandle(this);
       this.enemies = [];
-      this.projectiles = [];
     }
     update() {
       this.player.update(this.input.keys);
 
-      //foreach to update projectiles
-      this.projectiles.forEach((projectile, index) => {
-        projectile.update();
-
-        //remove projectiles if outside the canvas
+      this.enemies.forEach((enemy) => {
+        enemy.update();
         if (
-          projectile.x < 0 ||
-          projectile.x > this.width ||
-          projectile.y < 0 ||
-          projectile.y > this.height
+          this.checkcollision(this.player, enemy) -
+            this.player.radius -
+            enemy.radius <
+          1
         ) {
-          setTimeout(() => {
-            this.projectiles.splice(index, 1);
-          }, 0);
+          enemy.delete = true;
         }
       });
 
-      //foreach to update enemies
-      this.enemies.forEach((enemy) => {
-        enemy.update();
-      });
+      this.enemies = this.enemies.filter((enemie) => !enemie.delete);
     }
     draw(context) {
       this.player.draw(context);
-      //draw projectiles
-      this.projectiles.forEach((projectile) => {
-        projectile.draw(context);
-      });
+
       //draw enemy
       this.enemies.forEach((enemy) => {
         enemy.draw(context);
@@ -59,20 +48,18 @@ window.addEventListener("load", function () {
       //add enemies
       this.enemies.push(new LowLevelEnemy(this));
     }
-    shoot(mouseX, mouseY) {
-      //shoot
-      this.projectiles.push(
-        new Projectile(this, this.player.x, this.player.y, mouseX, mouseY)
-      );
+    checkcollision(player, enemy) {
+      const dist = Math.hypot(player.x - enemy.x, player.y - enemy.y);
+      return dist;
     }
   }
   const game = new Game(canvas.width, canvas.height);
 
   function animate() {
+    animationID = requestAnimationFrame(animate);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     game.update();
     game.draw(ctx);
-    requestAnimationFrame(animate);
   }
   setInterval(() => {
     game.addEnemy();

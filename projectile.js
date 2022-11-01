@@ -14,6 +14,7 @@ export class Projectile {
       y: Math.sin(angle) * 4,
     };
     this.velocity = velocity;
+    this.delete = false;
   }
   update() {
     this.x += this.speedX;
@@ -22,6 +23,15 @@ export class Projectile {
     //projectile speed
     this.speedX = this.velocity.x * this.maxSpeed;
     this.speedY = this.velocity.y * this.maxSpeed;
+    //remove projectiles if outside the canvas
+    if (
+      this.x < 0 ||
+      this.x > this.game.width ||
+      this.y < 0 ||
+      this.y > this.game.height
+    ) {
+      this.delete = true;
+    }
   }
   draw(context) {
     context.beginPath();
