@@ -23,20 +23,9 @@ window.addEventListener("load", function () {
       this.player.update(this.input.keys);
 
       //foreach to update projectiles
-      this.projectiles.forEach((projectile) => {
-        projectile.update();
-      });
-
-      //foreach to update enemies
-      this.enemies.forEach((enemy) => {
-        enemy.update();
-      });
-    }
-    draw(context) {
-      this.player.draw(context);
-      //draw projectiles
       this.projectiles.forEach((projectile, index) => {
-        projectile.draw(context);
+        projectile.update();
+
         //remove projectiles if outside the canvas
         if (
           projectile.x < 0 ||
@@ -48,6 +37,18 @@ window.addEventListener("load", function () {
             this.projectiles.splice(index, 1);
           }, 0);
         }
+      });
+
+      //foreach to update enemies
+      this.enemies.forEach((enemy) => {
+        enemy.update();
+      });
+    }
+    draw(context) {
+      this.player.draw(context);
+      //draw projectiles
+      this.projectiles.forEach((projectile) => {
+        projectile.draw(context);
       });
       //draw enemy
       this.enemies.forEach((enemy) => {
