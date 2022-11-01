@@ -7,7 +7,7 @@ export class Projectile {
     this.mouseY = mouseY;
     this.speedX = 0;
     this.speedY = 0;
-    this.maxSpeed = 2;
+    this.maxSpeed = 1;
     const angle = Math.atan2(this.mouseY - this.y, this.mouseX - this.x);
     const velocity = {
       x: Math.cos(angle) * 4,
