@@ -43,6 +43,15 @@ class Game {
       ) {
         enemy.delete = true;
       }
+
+      this.projectiles.forEach((projectile) => {
+        if (this.checkcollision(enemy, projectile) - enemy.radius < 1) {
+          projectile.delete = true;
+          enemy.delete = true;
+          score++;
+          scoreEL.innerHTML = score;
+        }
+      });
     });
 
     this.enemies = this.enemies.filter((enemie) => !enemie.delete);
@@ -65,7 +74,6 @@ class Game {
     this.projectiles.push(
       new Projectile(this, this.player.x, this.player.y, mouseX, mouseY)
     );
-    console.log(this.projectiles);
   }
   addEnemy() {
     //add enemies
