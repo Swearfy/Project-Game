@@ -30,10 +30,7 @@ export class InputHandle {
     }
     window.addEventListener("click", (e) => {
       getMousePos(canvas, e);
-      this.game.player.shoot(
-        getMousePos(canvas, e).x,
-        getMousePos(canvas, e).y
-      );
+      this.game.shoot(getMousePos(canvas, e).x, getMousePos(canvas, e).y);
     });
   }
 }

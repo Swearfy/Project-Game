@@ -1,6 +1,7 @@
 import { LowLevelEnemy } from "./enemy.js";
 import { InputHandle } from "./imput.js";
 import { Player } from "./player.js";
+import { Projectile } from "./projectile.js";
 
 const canvas = document.getElementById("canvas1");
 const ctx = canvas.getContext("2d");
@@ -17,10 +18,21 @@ class Game {
     this.player = new Player(this);
     this.input = new InputHandle(this);
     this.enemies = [];
+    this.projectiles = [];
   }
   update() {
     this.player.update(this.input.keys);
 
+    //foreach to update projectiles
+    this.projectiles.forEach((projectile) => {
+      projectile.update();
+    });
+
+    this.projectiles = this.projectiles.filter(
+      (projectile) => !projectile.delete
+    );
+
+    //enemy
     this.enemies.forEach((enemy) => {
       enemy.update();
       if (
@@ -38,10 +50,22 @@ class Game {
   draw(context) {
     this.player.draw(context);
 
+    //draw projectiles
+    this.projectiles.forEach((projectile) => {
+      projectile.draw(context);
+    });
+
     //draw enemy
     this.enemies.forEach((enemy) => {
       enemy.draw(context);
     });
+  }
+  shoot(mouseX, mouseY) {
+    //shoot
+    this.projectiles.push(
+      new Projectile(this, this.player.x, this.player.y, mouseX, mouseY)
+    );
+    console.log(this.projectiles);
   }
   addEnemy() {
     //add enemies

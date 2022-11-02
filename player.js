@@ -1,4 +1,3 @@
-import { Projectile } from "./projectile.js";
 export class Player {
   constructor(game) {
     this.game = game;
@@ -9,7 +8,6 @@ export class Player {
     this.speedY = 0;
     this.maxSpeed = 2;
     this.lives = 5;
-    this.projectiles = [];
   }
   update(input) {
     this.x += this.speedX;
@@ -33,32 +31,12 @@ export class Player {
     if (this.y - this.radius < 0) this.y += this.radius - this.y;
     if (this.y > this.game.height - this.radius)
       this.y = this.game.height - this.radius;
-
-    //foreach to update projectiles
-    this.projectiles.forEach((projectile) => {
-      projectile.update();
-    });
-
-    this.projectiles = this.projectiles.filter(
-      (projectile) => !projectile.delete
-    );
   }
   draw(context) {
-    //draw projectiles
-    this.projectiles.forEach((projectile) => {
-      projectile.draw(context);
-    });
     //temporary player
     context.beginPath();
     context.fillStyle = "black";
     context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
     context.fill();
-  }
-  shoot(mouseX, mouseY) {
-    //shoot
-    this.projectiles.push(
-      new Projectile(this.game, this.x, this.y, mouseX, mouseY)
-    );
-    console.log(this.projectiles);
   }
 }
