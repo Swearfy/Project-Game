@@ -21,7 +21,7 @@ export class Enemy {
     this.maxSpeed = 1;
     this.delete = false;
   }
-  update() {
+  update(deltaTime) {
     //calc velocity to player
     const angle = Math.atan2(
       this.game.player.y - this.y,

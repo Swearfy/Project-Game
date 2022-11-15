@@ -6,12 +6,13 @@ export class Player {
     this.y = this.game.height / 2;
     this.speedX = 0;
     this.speedY = 0;
-    this.maxSpeed = 2;
+    this.maxSpeed = 100;
     this.lives = 5;
   }
-  update(input) {
-    this.x += this.speedX;
-    this.y += this.speedY;
+  update(input, deltaTime) {
+    if (!deltaTime) return;
+    this.x += this.speedX / deltaTime;
+    this.y += this.speedY / deltaTime;
 
     // movment
     if (input.includes("d")) this.speedX = this.maxSpeed;

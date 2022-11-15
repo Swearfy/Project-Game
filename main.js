@@ -24,7 +24,7 @@ window.addEventListener("load", function () {
       this.enemyInterval = 1000;
     }
     update(deltaTime) {
-      this.player.update(this.input.keys);
+      this.player.update(this.input.keys, deltaTime);
 
       //foreach to update projectiles
       this.projectiles.forEach((projectile) => {
@@ -37,7 +37,7 @@ window.addEventListener("load", function () {
 
       //enemy
       this.enemies.forEach((enemy) => {
-        enemy.update();
+        enemy.update(deltaTime);
         if (
           this.checkcollision(this.player, enemy) -
             this.player.radius -
