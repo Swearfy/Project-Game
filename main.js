@@ -1,5 +1,5 @@
 import { LowLevelEnemy } from "./enemy.js";
-import { InputHandle } from "./imput.js";
+import { InputHandle } from "./input.js";
 import { Player } from "./player.js";
 import { Projectile } from "./projectile.js";
 
@@ -20,7 +20,7 @@ class Game {
     this.enemies = [];
     this.projectiles = [];
   }
-  update() {
+  update(deltaTime) {
     this.player.update(this.input.keys);
 
     //foreach to update projectiles
@@ -86,13 +86,16 @@ class Game {
 }
 const game = new Game(canvas.width, canvas.height);
 
-function animate() {
+let lastTime = 0;
+function animate(timeStamp) {
   animationID = requestAnimationFrame(animate);
+  const deltaTime = timeStamp - lastTime;
+  lastTime = timeStamp;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  game.update();
+  game.update(deltaTime);
   game.draw(ctx);
 }
 setInterval(() => {
   game.addEnemy();
 }, 1000);
-animate();
+animate(0);
