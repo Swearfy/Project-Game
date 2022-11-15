@@ -9,7 +9,6 @@ const scoreEL = document.getElementById("scoreEL");
 
 canvas.width = 1000;
 canvas.height = 1000;
-let animationID;
 let score = 0;
 class Game {
   constructor(width, height) {
@@ -19,6 +18,9 @@ class Game {
     this.input = new InputHandle(this);
     this.enemies = [];
     this.projectiles = [];
+    this.gameOver = false;
+    this.enemyTimer = 0;
+    this.enemyInterval = 1000;
   }
   update(deltaTime) {
     this.player.update(this.input.keys);
@@ -55,6 +57,13 @@ class Game {
     });
 
     this.enemies = this.enemies.filter((enemie) => !enemie.delete);
+
+    if (this.enemyTimer > this.enemyInterval && !this.gameOver) {
+      this.addEnemy();
+      this.enemyTimer = 0;
+    } else {
+      this.enemyTimer += deltaTime;
+    }
   }
   draw(context) {
     this.player.draw(context);
@@ -88,14 +97,11 @@ const game = new Game(canvas.width, canvas.height);
 
 let lastTime = 0;
 function animate(timeStamp) {
-  animationID = requestAnimationFrame(animate);
   const deltaTime = timeStamp - lastTime;
   lastTime = timeStamp;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   game.update(deltaTime);
   game.draw(ctx);
+  requestAnimationFrame(animate);
 }
-setInterval(() => {
-  game.addEnemy();
-}, 1000);
 animate(0);
