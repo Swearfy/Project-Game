@@ -98,12 +98,14 @@ window.addEventListener("load", function () {
 
   let lastTime = 0;
   function animate(timeStamp) {
-    const deltaTime = timeStamp - lastTime;
+    let deltaTime = timeStamp - lastTime;
     lastTime = timeStamp;
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
     game.update(deltaTime);
     game.draw(ctx);
     requestAnimationFrame(animate);
   }
-  animate(0);
+  requestAnimationFrame(animate);
 });
