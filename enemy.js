@@ -18,7 +18,7 @@ export class Enemy {
     this.game = game;
     this.speedX = 0;
     this.speedY = 0;
-    this.maxSpeed = 1;
+    this.maxSpeed = 5;
     this.delete = false;
   }
   update(deltaTime) {
