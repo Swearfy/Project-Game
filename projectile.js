@@ -35,7 +35,7 @@ export class Projectile {
   }
   draw(context) {
     context.beginPath();
-    context.fillStyle = "red";
+    context.fillStyle = "green";
     context.arc(this.x, this.y, 10, 0, Math.PI * 2, false);
     context.fill();
   }
